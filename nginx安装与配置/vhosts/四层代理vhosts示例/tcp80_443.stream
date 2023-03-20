@@ -1,0 +1,27 @@
+upstream tcp80 {
+    server      10.120.200.139:80 max_fails=3 fail_timeout=30s;
+    server      10.120.200.140:80 max_fails=3 fail_timeout=30s;
+    server      10.120.200.141:80 max_fails=3 fail_timeout=30s;
+    server      10.120.200.142:80 max_fails=3 fail_timeout=30s;
+}
+server {
+    listen 80;
+    proxy_timeout 3600s;
+    proxy_connect_timeout 30s;
+    proxy_protocol on;
+    proxy_pass tcp80;
+}
+
+upstream tcp443 {
+    server      10.120.200.139:443 max_fails=3 fail_timeout=30s;
+    server      10.120.200.140:443 max_fails=3 fail_timeout=30s;
+    server      10.120.200.141:443 max_fails=3 fail_timeout=30s;
+    server      10.120.200.142:443 max_fails=3 fail_timeout=30s;
+}
+server {
+    listen 443;
+    proxy_timeout 3600s;
+    proxy_connect_timeout 30s;
+    proxy_protocol on;
+    proxy_pass tcp443;
+}
